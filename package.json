@@ -1,0 +1,19 @@
+{
+  "name": "zira-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm --prefix zira-backend run dev",
+    "backend": "npm --prefix zira-backend run dev",
+    "frontend": "npm --prefix zira-frontend run dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "axios": "^1.18.1"
+  }
+}

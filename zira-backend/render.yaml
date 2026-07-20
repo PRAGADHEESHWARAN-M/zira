@@ -1,0 +1,21 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# Deploy: push this repo to GitHub, then in Render: New > Blueprint > pick the repo.
+# Render finds this file automatically at the repo root of the backend service.
+
+services:
+  - type: web
+    name: zira-api
+    runtime: node
+    plan: free
+    region: singapore
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: MONGO_URI
+        sync: false        # set manually in the Render dashboard (Atlas connection string)
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CLIENT_ORIGIN
+        sync: false        # set to your deployed frontend URL, e.g. https://zira.vercel.app
+      - key: PORT
+        value: 5000
