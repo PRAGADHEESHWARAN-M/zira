@@ -6,9 +6,9 @@ export function Logo({ size = 28 }) {
     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
       <div
         style={{
-          width: size, height: size, borderRadius: "50%", border: "1px solid #4a90e2",
+          width: size, height: size, borderRadius: "50%", border: "1px solid var(--apricot)",
           display: "flex", alignItems: "center", justifyContent: "center",
-          color: "#87ceeb", fontFamily: "'Cormorant Garamond',serif", fontSize: size * 0.55,
+          color: "var(--apricot-light)", fontFamily: "'Cormorant Garamond',serif", fontSize: size * 0.55,
         }}
       >
         Z
@@ -21,7 +21,7 @@ export function Logo({ size = 28 }) {
 export function Field({ icon: Icon, ...props }) {
   return (
     <div style={{ position: "relative", marginBottom: 14 }}>
-      {Icon && <Icon size={16} style={{ position: "absolute", left: 12, top: 13, color: "#8fa3b5" }} />}
+      {Icon && <Icon size={16} style={{ position: "absolute", left: 12, top: 13, color: "var(--muted)" }} />}
       <input className="input" style={{ paddingLeft: Icon ? 36 : 14 }} {...props} />
     </div>
   );
@@ -34,9 +34,9 @@ export function Modal({ title, onClose, children, wide }) {
       onClick={onClose}
     >
       <div className="card fade" style={{ width: wide ? 560 : 420, maxWidth: "100%", maxHeight: "88vh", overflowY: "auto" }} onClick={(e) => e.stopPropagation()}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 20px", borderBottom: "1px solid #2d3d4f" }}>
-          <span className="serif" style={{ fontSize: 20, color: "#87ceeb" }}>{title}</span>
-          <X size={18} style={{ cursor: "pointer", color: "#8fa3b5" }} onClick={onClose} />
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 20px", borderBottom: "1px solid var(--line)" }}>
+          <span className="serif" style={{ fontSize: 20, color: "var(--apricot-light)" }}>{title}</span>
+          <X size={18} style={{ cursor: "pointer", color: "var(--muted)" }} onClick={onClose} />
         </div>
         <div style={{ padding: 20 }}>{children}</div>
       </div>
@@ -46,9 +46,9 @@ export function Modal({ title, onClose, children, wide }) {
 
 export function StatusPill({ status }) {
   const map = {
-    Pending: { c: "#4a90e2", Icon: Clock },
-    Shipped: { c: "#87ceeb", Icon: Truck },
-    Delivered: { c: "#2ecc71", Icon: CheckCircle2 },
+    Pending: { c: "var(--apricot)", Icon: Clock },
+    Shipped: { c: "var(--apricot-light)", Icon: Truck },
+    Delivered: { c: "var(--success)", Icon: CheckCircle2 },
   };
   const { c, Icon } = map[status] || map.Pending;
   return (

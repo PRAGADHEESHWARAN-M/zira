@@ -1,12 +1,19 @@
 import React, { useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
+import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import AuthCallback from "./pages/AuthCallback";
 import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
 import MyOrders from "./pages/MyOrders";
 import Profile from "./pages/Profile";
+import AboutUs from "./pages/AboutUs";
+import FAQ from "./pages/FAQ";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsAndConditions from "./pages/TermsAndConditions";
+import ContactUs from "./pages/ContactUs";
 
 import Dashboard from "./pages/admin/Dashboard";
 import Categories from "./pages/admin/Categories";
@@ -18,7 +25,28 @@ import MyOrdersAdmin from "./pages/admin/MyOrdersAdmin";
 
 import TopNav from "./components/TopNav";
 import AdminShell from "./components/AdminShell";
+import Footer from "./components/Footer";
 import { RequireAuth, RequireAdmin, RedirectIfLoggedIn } from "./routes/guards";
+
+function PublicPage({ children }) {
+  return (
+    <>
+      <TopNav />
+      <div style={{ minHeight: "60vh" }}>{children}</div>
+      <Footer />
+    </>
+  );
+}
+
+function CustomerPage({ children }) {
+  return (
+    <>
+      <TopNav />
+      <div style={{ minHeight: "60vh" }}>{children}</div>
+      <Footer />
+    </>
+  );
+}
 
 export default function App() {
   const [cart, setCart] = useState([]); // [{ product, qty }]
@@ -35,16 +63,26 @@ export default function App() {
 
   return (
     <Routes>
+      <Route path="/" element={<PublicPage><Home /></PublicPage>} />
       <Route path="/login" element={<RedirectIfLoggedIn><Login /></RedirectIfLoggedIn>} />
       <Route path="/signup" element={<RedirectIfLoggedIn><Signup /></RedirectIfLoggedIn>} />
+      <Route path="/auth/callback" element={<AuthCallback />} />
+
+      {/* Public informational pages */}
+      <Route path="/about" element={<PublicPage><AboutUs /></PublicPage>} />
+      <Route path="/faq" element={<PublicPage><FAQ /></PublicPage>} />
+      <Route path="/privacy-policy" element={<PublicPage><PrivacyPolicy /></PublicPage>} />
+      <Route path="/terms" element={<PublicPage><TermsAndConditions /></PublicPage>} />
+      <Route path="/contact" element={<PublicPage><ContactUs /></PublicPage>} />
 
       {/* Customer storefront */}
       <Route
         path="/shop"
         element={
           <RequireAuth>
-            <TopNav cartCount={cartCount} />
-            <Shop onAddToCart={addToCart} />
+            <CustomerPage>
+              <Shop onAddToCart={addToCart} />
+            </CustomerPage>
           </RequireAuth>
         }
       />
@@ -52,8 +90,9 @@ export default function App() {
         path="/cart"
         element={
           <RequireAuth>
-            <TopNav cartCount={cartCount} />
-            <Cart cart={cart} setCart={setCart} />
+            <CustomerPage>
+              <Cart cart={cart} setCart={setCart} />
+            </CustomerPage>
           </RequireAuth>
         }
       />
@@ -61,8 +100,9 @@ export default function App() {
         path="/orders"
         element={
           <RequireAuth>
-            <TopNav cartCount={cartCount} />
-            <MyOrders />
+            <CustomerPage>
+              <MyOrders />
+            </CustomerPage>
           </RequireAuth>
         }
       />
@@ -70,8 +110,9 @@ export default function App() {
         path="/profile"
         element={
           <RequireAuth>
-            <TopNav cartCount={cartCount} />
-            <Profile />
+            <CustomerPage>
+              <Profile />
+            </CustomerPage>
           </RequireAuth>
         }
       />
@@ -86,7 +127,7 @@ export default function App() {
       <Route path="/admin/blogs" element={<RequireAdmin><AdminShell><Blogs /></AdminShell></RequireAdmin>} />
       <Route path="/admin/orders" element={<RequireAdmin><AdminShell><Orders /></AdminShell></RequireAdmin>} />
 
-      <Route path="*" element={<Navigate to="/login" replace />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }

@@ -1,5 +1,6 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
+const passport = require("passport");
 const User = require("../models/User");
 const { requireAuth } = require("../middleware/auth");
 
@@ -47,6 +48,24 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ message: "Login failed.", error: err.message });
   }
 });
+
+// GET /api/auth/google — Initiate Google OAuth
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"], session: false })
+);
+
+// GET /api/auth/google/callback — Google OAuth callback
+router.get(
+  "/google/callback",
+  passport.authenticate("google", { session: false, failureRedirect: "/login" }),
+  (req, res) => {
+    const { user, token } = req.user;
+    // Redirect to frontend with token
+    const clientOrigin = process.env.CLIENT_ORIGIN || "http://localhost:5173";
+    res.redirect(`${clientOrigin}/auth/callback?token=${token}&name=${encodeURIComponent(user.name)}&email=${encodeURIComponent(user.email)}&avatar=${encodeURIComponent(user.avatar || "")}`);
+  }
+);
 
 // GET /api/auth/me
 router.get("/me", requireAuth, async (req, res) => {

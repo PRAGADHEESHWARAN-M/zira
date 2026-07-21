@@ -26,7 +26,7 @@ export default function Profile() {
         <Field icon={Phone} value={form.phone || ""} onChange={set("phone")} placeholder="Phone" />
         <Field icon={MapPin} value={form.address || ""} onChange={set("address")} placeholder="Address" />
         <button className="btn btn-solid" onClick={save}>Save Changes</button>
-        {saved && <p style={{ color: "#6f9c6b", fontSize: 12, marginTop: 10 }}>Profile updated.</p>}
+        {saved && <p style={{ color: "#C9A96E", fontSize: 12, marginTop: 10 }}>Profile updated.</p>}
       </div>
     </div>
   );

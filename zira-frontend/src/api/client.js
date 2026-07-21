@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const client = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
+  baseURL: import.meta.env.VITE_API_URL || "https://zira-0fhn.onrender.com/api",
 });
 
 // Runs before every request — attaches the JWT if we have one.
@@ -27,6 +27,9 @@ export const api = {
   login: (username, password) => client.post("/auth/login", { username, password }).then((r) => r.data),
   signup: (form) => client.post("/auth/signup", form).then((r) => r.data),
   me: () => client.get("/auth/me").then((r) => r.data),
+
+  // Google OAuth — just returns the backend URL
+  googleAuthUrl: () => `${client.defaults.baseURL}/auth/google`,
 
   updateProfile: (form) => client.put("/users/me", form).then((r) => r.data),
   listUsers: () => client.get("/users").then((r) => r.data),

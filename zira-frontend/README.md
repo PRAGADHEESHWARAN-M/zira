@@ -6,7 +6,7 @@ version of the `zira.jsx` artifact demo.
 
 ## Setup
 
-1. Make sure `zira-backend` is running (see its README) — default `http://localhost:5000`.
+1. Make sure `zira-backend` is running (see its README) — default `cl`.
 2. `npm install`
 3. Copy `.env.example` to `.env` and set `VITE_API_URL` if your API isn't on localhost.
 4. `npm run dev` → open the printed local URL (default `http://localhost:5173`).

@@ -9,15 +9,15 @@ export default function MyOrdersAdmin() {
   return (
     <div className="fade">
       <p className="serif" style={{ fontSize: 30, marginBottom: 24 }}>My Orders</p>
-      {orders.length === 0 && <p style={{ color: "#8fa3b5" }}>No orders yet — Zira admins can shop too.</p>}
+      {orders.length === 0 && <p style={{ color: "#8FA395" }}>No orders yet — Zira admins can shop too.</p>}
       {orders.map((o) => (
         <div key={o._id} className="card" style={{ padding: 18, marginBottom: 14 }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8, flexWrap: "wrap", gap: 6 }}>
-            <span className="serif" style={{ fontSize: 17, color: "#87ceeb" }}>{o.orderNumber}</span>
+            <span className="serif" style={{ fontSize: 17, color: "#E8D5A3" }}>{o.orderNumber}</span>
             <StatusPill status={o.status} />
           </div>
-          <p style={{ fontSize: 12, color: "#8fa3b5", marginBottom: 8 }}>{new Date(o.createdAt).toLocaleDateString()}</p>
-          <p style={{ fontSize: 14 }}>Total: <b style={{ color: "#87ceeb" }}>{currency(o.total)}</b></p>
+          <p style={{ fontSize: 12, color: "#8FA395", marginBottom: 8 }}>{new Date(o.createdAt).toLocaleDateString()}</p>
+          <p style={{ fontSize: 14 }}>Total: <b style={{ color: "#E8D5A3" }}>{currency(o.total)}</b></p>
         </div>
       ))}
     </div>

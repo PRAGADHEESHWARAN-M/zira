@@ -1,49 +1,148 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import { ShoppingBag, LogOut } from "lucide-react";
 import { Logo } from "./ui";
 import { useAuth } from "../context/AuthContext";
+
+const navItemVariants = {
+  hidden: { opacity: 0, y: -8 },
+  visible: (i) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.05, duration: 0.4, ease: [0.4, 0, 0.2, 1] },
+  }),
+};
 
 export default function TopNav({ cartCount }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const items = [
-    ["/shop", "Shop"],
-    ["/orders", "My Orders"],
-    ["/profile", "My Profile"],
+  const storeItems = user
+    ? [
+        ["/shop", "Shop"],
+        ["/orders", "My Orders"],
+        ["/profile", "My Profile"],
+      ]
+    : [];
+
+  const infoItems = [
+    ["/about", "About"],
+    ["/contact", "Contact"],
   ];
 
+  const allItems = [["/", "Home"], ...storeItems, ...infoItems];
+
   return (
-    <div style={{ borderBottom: "1px solid #2d3d4f", position: "sticky", top: 0, background: "#0f1419", zIndex: 10 }}>
+    <motion.div
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+      style={{
+        borderBottom: "1px solid rgba(63,45,99,0.3)",
+        position: "sticky",
+        top: 0,
+        background: "rgba(18,8,36,0.85)",
+        backdropFilter: "blur(16px)",
+        WebkitBackdropFilter: "blur(16px)",
+        zIndex: 10,
+      }}
+    >
       <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 20px" }}>
-        <Link to="/shop"><Logo /></Link>
+        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+          <Link to={user ? "/shop" : "/about"}><Logo /></Link>
+        </motion.div>
         <div style={{ display: "flex", gap: 26, alignItems: "center" }}>
-          {items.map(([to, label]) => (
-            <Link
+          {allItems.map(([to, label], i) => (
+            <motion.div
               key={to}
-              to={to}
-              style={{
-                fontSize: 13, letterSpacing: ".04em", color: pathname === to ? "#87ceeb" : "#d4dce6",
-                borderBottom: pathname === to ? "1px solid #87ceeb" : "1px solid transparent", paddingBottom: 4,
-              }}
+              custom={i}
+              initial="hidden"
+              animate="visible"
+              variants={navItemVariants}
+              whileHover={{ y: -1 }}
             >
-              {label}
-            </Link>
+              <Link
+                to={to}
+                style={{
+                  fontSize: 13,
+                  letterSpacing: ".04em",
+                  color: pathname === to ? "var(--apricot-light)" : "var(--muted-light)",
+                  borderBottom: pathname === to ? "1px solid var(--apricot-light)" : "1px solid transparent",
+                  paddingBottom: 4,
+                  transition: "color 0.2s",
+                }}
+              >
+                {label}
+              </Link>
+            </motion.div>
           ))}
-          <Link to="/cart" style={{ position: "relative" }}>
-            <ShoppingBag size={19} color={pathname === "/cart" ? "#87ceeb" : "#d4dce6"} />
-            {cartCount > 0 && (
-              <span style={{ position: "absolute", top: -8, right: -10, background: "#4a90e2", color: "#0f1419", fontSize: 10, borderRadius: "50%", width: 16, height: 16, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                {cartCount}
-              </span>
-            )}
-          </Link>
-          <span style={{ fontSize: 12, color: "#8fa3b5" }}>Hi, {user?.name?.split(" ")[0]}</span>
-          <LogOut size={16} style={{ cursor: "pointer", color: "#8fa3b5" }} onClick={() => { logout(); navigate("/login"); }} />
+          {user && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3 }}
+            >
+              <Link to="/cart" style={{ position: "relative" }}>
+                <ShoppingBag size={19} color={pathname === "/cart" ? "var(--apricot-light)" : "var(--muted-light)"} />
+                {cartCount > 0 && (
+                  <motion.span
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", stiffness: 500 }}
+                    style={{
+                      position: "absolute",
+                      top: -8,
+                      right: -10,
+                      background: "var(--apricot)",
+                      color: "var(--bg)",
+                      fontSize: 10,
+                      borderRadius: "50%",
+                      width: 16,
+                      height: 16,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {cartCount}
+                  </motion.span>
+                )}
+              </Link>
+            </motion.div>
+          )}
+          {user && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.35 }}
+              style={{ display: "flex", alignItems: "center", gap: 12 }}
+            >
+              <span style={{ fontSize: 12, color: "var(--muted)" }}>Hi, {user?.name?.split(" ")[0]}</span>
+              <motion.div
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                style={{ cursor: "pointer", display: "flex" }}
+              >
+                <LogOut size={16} style={{ color: "var(--muted)" }} onClick={() => { logout(); navigate("/login"); }} />
+              </motion.div>
+            </motion.div>
+          )}
+          {!user && (
+            <motion.div
+              initial={{ opacity: 0, x: 10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3 }}
+              whileHover={{ scale: 1.03 }}
+            >
+              <Link to="/login" className="btn" style={{ padding: "6px 14px", fontSize: 11 }}>
+                Sign In
+              </Link>
+            </motion.div>
+          )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

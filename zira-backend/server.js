@@ -1,7 +1,9 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const passport = require("passport");
 const connectDB = require("./config/db");
+require("./config/passport"); // Google OAuth strategy
 
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/users");
@@ -16,6 +18,7 @@ connectDB();
 
 app.use(cors({ origin: (process.env.CLIENT_ORIGIN || "*").split(",") }));
 app.use(express.json());
+app.use(passport.initialize());
 
 app.get("/api/health", (req, res) => res.json({ status: "Zira API is running." }));
 

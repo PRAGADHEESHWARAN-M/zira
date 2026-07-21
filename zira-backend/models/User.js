@@ -8,8 +8,10 @@ const userSchema = new mongoose.Schema(
     phone: { type: String, default: "" },
     address: { type: String, default: "" },
     username: { type: String, required: true, unique: true, trim: true },
-    password: { type: String, required: true },
+    password: { type: String, required: function() { return !this.googleId; } },
     role: { type: String, enum: ["admin", "customer"], default: "customer" },
+    googleId: { type: String, default: null },
+    avatar: { type: String, default: "" },
   },
   { timestamps: true }
 );

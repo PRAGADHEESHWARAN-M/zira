@@ -28,23 +28,23 @@ export default function Dashboard() {
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(180px,1fr))", gap: 16, marginBottom: 32 }}>
         {stats.map((s) => (
           <div key={s.label} className="card" style={{ padding: 18 }}>
-            <s.Icon size={18} color="#4a90e2" style={{ marginBottom: 10 }} />
-            <p className="serif" style={{ fontSize: 24, color: "#87ceeb" }}>{s.value}</p>
-            <p style={{ fontSize: 12, color: "#8fa3b5" }}>{s.label}</p>
+            <s.Icon size={18} color="var(--apricot)" style={{ marginBottom: 10 }} />
+            <p className="serif" style={{ fontSize: 24, color: "var(--apricot-light)" }}>{s.value}</p>
+            <p style={{ fontSize: 12, color: "var(--muted)" }}>{s.label}</p>
           </div>
         ))}
       </div>
       <p className="serif" style={{ fontSize: 20, marginBottom: 14 }}>Recent Orders</p>
       <div className="card" style={{ padding: 4 }}>
         {orders.slice(0, 5).map((o) => (
-          <div key={o._id} style={{ display: "flex", justifyContent: "space-between", padding: "12px 16px", borderBottom: "1px solid #2d3d4f", fontSize: 13, flexWrap: "wrap", gap: 8 }}>
-            <span style={{ color: "#87ceeb" }}>{o.orderNumber}</span>
-            <span style={{ color: "#d4dce6" }}>{o.userId?.name || "—"}</span>
+          <div key={o._id} style={{ display: "flex", justifyContent: "space-between", padding: "12px 16px", borderBottom: "1px solid var(--line)", fontSize: 13, flexWrap: "wrap", gap: 8 }}>
+            <span style={{ color: "var(--apricot-light)" }}>{o.orderNumber}</span>
+            <span style={{ color: "#d5cce0" }}>{o.userId?.name || "—"}</span>
             <span>{currency(o.total)}</span>
             <StatusPill status={o.status} />
           </div>
         ))}
-        {orders.length === 0 && <p style={{ padding: 16, color: "#8fa3b5" }}>No orders yet.</p>}
+        {orders.length === 0 && <p style={{ padding: 16, color: "var(--muted)" }}>No orders yet.</p>}
       </div>
     </div>
   );

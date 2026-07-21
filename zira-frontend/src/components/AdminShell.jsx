@@ -34,7 +34,7 @@ export default function AdminShell({ children }) {
               key={to} to={to}
               style={{
                 display: "flex", alignItems: "center", gap: 10, padding: "11px 12px",
-                color: active ? "#0f1419" : "#d4dce6", background: active ? "#4a90e2" : "transparent",
+                color: active ? "#1a0e2e" : "#d5cce0", background: active ? "var(--apricot)" : "transparent",
                 fontSize: 13, marginBottom: 3,
               }}
             >
@@ -45,7 +45,7 @@ export default function AdminShell({ children }) {
         <div className="hairline" style={{ margin: "14px 0" }} />
         <div
           onClick={() => { logout(); navigate("/login"); }}
-          style={{ display: "flex", alignItems: "center", gap: 10, padding: "11px 12px", cursor: "pointer", color: "#e74c3c", fontSize: 13 }}
+          style={{ display: "flex", alignItems: "center", gap: 10, padding: "11px 12px", cursor: "pointer", color: "var(--danger)", fontSize: 13 }}
         >
           <LogOut size={15} /> Logout
         </div>
