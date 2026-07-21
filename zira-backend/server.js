@@ -22,6 +22,22 @@ app.use(passport.initialize());
 
 app.get("/api/health", (req, res) => res.json({ status: "Zira API is running." }));
 
+// Seed endpoint — call GET /api/seed once to populate the database
+app.get("/api/seed", async (req, res) => {
+  try {
+    const { exec } = require("child_process");
+    exec("node seed.js", { cwd: __dirname }, (error, stdout, stderr) => {
+      if (error) {
+        console.error("Seed error:", error);
+        return res.status(500).json({ message: "Seed failed.", error: error.message, stderr });
+      }
+      res.json({ message: "Database seeded successfully!", output: stdout });
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Seed failed.", error: err.message });
+  }
+});
+
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/categories", categoryRoutes);
