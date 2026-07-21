@@ -12,10 +12,10 @@ services:
     startCommand: node server.js
     envVars:
       - key: MONGO_URI
-        sync: false        # set manually in the Render dashboard (Atlas connection string)
+        sync: false       # set manually in the Render dashboard (Atlas connection string)
       - key: JWT_SECRET
         generateValue: true
       - key: CLIENT_ORIGIN
-        sync: false        # set to your deployed frontend URL, e.g. https://zira.vercel.app
+        sync: false       # set to your deployed frontend URL, e.g. https://zira-luxury-grooming.netlify.app
       - key: PORT
         value: 5000
