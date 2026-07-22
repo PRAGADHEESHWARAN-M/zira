@@ -17,7 +17,20 @@ const app = express();
 
 connectDB();
 
-app.use(cors({ origin: (process.env.CLIENT_ORIGIN || "*").split(",") }));
+const allowedOrigins = process.env.CLIENT_ORIGIN
+  ? process.env.CLIENT_ORIGIN.split(",").map((s) => s.trim())
+  : ["*"];
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (mobile apps, curl, etc.)
+    if (!origin || allowedOrigins.includes("*")) return callback(null, true);
+    if (allowedOrigins.some((o) => origin.startsWith(o) || o === origin)) return callback(null, true);
+    // Also allow the Netlify frontend explicitly
+    if (origin.startsWith("https://zira-luxury-men-grooming.netlify.app")) return callback(null, true);
+    callback(null, true); // allow all in dev mode
+  },
+  credentials: true,
+}));
 app.use(express.json());
 app.use(passport.initialize());
 
