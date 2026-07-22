@@ -54,6 +54,9 @@ export const api = {
   allOrders: () => client.get("/orders").then((r) => r.data),
   checkout: (items) => client.post("/orders", { items }).then((r) => r.data),
   updateOrderStatus: (id, status) => client.put(`/orders/${id}/status`, { status }).then((r) => r.data),
+
+  // Contact
+  sendContact: (data) => client.post("/contacts", data).then((r) => r.data),
 };
 
 export default client;

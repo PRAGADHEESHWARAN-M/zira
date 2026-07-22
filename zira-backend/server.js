@@ -11,6 +11,7 @@ const categoryRoutes = require("./routes/categories");
 const productRoutes = require("./routes/products");
 const blogRoutes = require("./routes/blogs");
 const orderRoutes = require("./routes/orders");
+const contactRoutes = require("./routes/contacts");
 
 const app = express();
 
@@ -44,6 +45,7 @@ app.use("/api/categories", categoryRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/contacts", contactRoutes);
 
 // 404 fallback
 app.use((req, res) => res.status(404).json({ message: "Route not found." }));

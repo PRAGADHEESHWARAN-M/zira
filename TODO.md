@@ -1,8 +1,12 @@
-# ZIRA Home Page Implementation
+# Backend-Frontend Connection Implementation
 
-- [x] Step 1: Create `Home.jsx` landing page with hero image, brand messaging, CTA buttons, and value highlights
-- [x] Step 2: Update `App.jsx` to add `/` route for Home and redirect `*` to `/`
-- [x] Step 3: Update `TopNav.jsx` to add "Home" link in navigation
+## Steps
 
-✅ All tasks complete!
+- [x] 1. Analyze codebase and create plan
+- [x] 2. Create `zira-backend/models/Contact.js` — Mongoose model for contact inquiries
+- [x] 3. Create `zira-backend/routes/contacts.js` — POST /api/contacts endpoint
+- [x] 4. Update `zira-backend/server.js` — Register the new contacts route
+- [x] 5. Update `zira-frontend/src/api/client.js` — Add `sendContact` API method
+- [x] 6. Update `zira-frontend/src/pages/ContactUs.jsx` — Connect to real API
+- [x] 7. Create `zira-frontend/.env.example` — For local dev reference
 

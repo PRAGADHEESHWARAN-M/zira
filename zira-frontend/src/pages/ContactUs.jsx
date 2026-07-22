@@ -1,18 +1,29 @@
 import React, { useState } from "react";
 import { Mail, Phone, MapPin, Send, MessageSquare, User, AlertCircle } from "lucide-react";
+import { api } from "../api/client";
 
 export default function ContactUs() {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
   const [sent, setSent] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
 
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
-    // Simulate sending
-    setSent(true);
-    setForm({ name: "", email: "", subject: "", message: "" });
-    setTimeout(() => setSent(false), 3000);
+    setBusy(true);
+    setError("");
+    try {
+      await api.sendContact(form);
+      setSent(true);
+      setForm({ name: "", email: "", subject: "", message: "" });
+      setTimeout(() => setSent(false), 3000);
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to send message.");
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
