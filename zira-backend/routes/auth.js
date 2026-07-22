@@ -70,7 +70,7 @@ router.get(
   (req, res) => {
     const { user, token } = req.user;
     // Redirect to frontend with token
-    const clientOrigin = process.env.CLIENT_ORIGIN || "https://zira-luxury-men-grooming.netlify.app/";
+    const clientOrigin = process.env.CLIENT_ORIGIN || "https://zira-luxury-grooming.netlify.app/";
     res.redirect(`${clientOrigin}/auth/callback?token=${token}&name=${encodeURIComponent(user.name)}&email=${encodeURIComponent(user.email)}&avatar=${encodeURIComponent(user.avatar || "")}`);
   }
 );

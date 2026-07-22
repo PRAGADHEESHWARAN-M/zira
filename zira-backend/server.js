@@ -28,7 +28,7 @@ app.use(cors({
     if (!origin || allowedOrigins.includes("*")) return callback(null, true);
     if (allowedOrigins.some((o) => origin.startsWith(o) || o === origin)) return callback(null, true);
     // Also allow the Netlify frontend explicitly
-    if (origin.startsWith("https://zira-luxury-men-grooming.netlify.app")) return callback(null, true);
+    if (origin.startsWith("https://zira-luxury-grooming.netlify.app")) return callback(null, true);
     callback(null, true); // allow all in dev mode
   },
   credentials: true,

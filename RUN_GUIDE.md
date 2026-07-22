@@ -7,7 +7,7 @@
         │
         ▼
 🌐 Netlify (Frontend)                ☁️ Render (Backend API)
-https://zira-luxury-men-grooming     https://zira-0fhn.onrender.com
+https://zira-luxury-grooming     https://zira-0fhn.onrender.com
        .netlify.app                         │
         │                                    │
         │  (Axios API calls)                 ▼
@@ -88,7 +88,7 @@ Frontend runs at **http://localhost:5173**
 ## 2️⃣ Deployed Version (Netlify + Render)
 
 Your URLs:
-- **Frontend:** https://zira-luxury-men-grooming.netlify.app
+- **Frontend:** https://zira-luxury-grooming.netlify.app
 - **Backend API:** https://zira-0fhn.onrender.com
 
 ### How Frontend ↔ Backend Connect
@@ -114,14 +114,14 @@ app.use(cors({ origin: (process.env.CLIENT_ORIGIN || "*").split(",") }));
 | Variable | Where to Set | Value | Purpose |
 |----------|-------------|-------|---------|
 | `VITE_API_URL` | **Netlify** → Site settings → Environment variables | `https://zira-0fhn.onrender.com/api` | Tells frontend where to send API calls |
-| `CLIENT_ORIGIN` | **Render** → Dashboard → Environment | `https://zira-luxury-men-grooming.netlify.app` | Tells backend which domains are allowed (CORS) |
+| `CLIENT_ORIGIN` | **Render** → Dashboard → Environment | `https://zira-luxury-grooming.netlify.app` | Tells backend which domains are allowed (CORS) |
 | `MONGO_URI` | **Render** → Dashboard → Environment | Your Atlas connection string | Database connection |
 | `JWT_SECRET` | **Render** → Dashboard → Environment | Auto-generated (or set manually) | Token signing |
 
 ### How to Set Them
 
 #### On Netlify:
-1. Go to https://app.netlify.com/sites/zira-luxury-men-grooming
+1. Go to https://app.netlify.com/sites/zira-luxury-grooming
 2. **Site configuration** → **Environment variables**
 3. Add: `VITE_API_URL = https://zira-0fhn.onrender.com/api`
 4. **Deploy** → **Trigger deploy** → **Deploy site** (re-builds with the variable)
@@ -129,7 +129,7 @@ app.use(cors({ origin: (process.env.CLIENT_ORIGIN || "*").split(",") }));
 #### On Render:
 1. Go to https://dashboard.render.com → your API service (`zira-api`)
 2. **Environment** → **Environment Variables**
-3. Set: `CLIENT_ORIGIN = https://zira-luxury-men-grooming.netlify.app`
+3. Set: `CLIENT_ORIGIN = https://zira-luxury-grooming.netlify.app`
 4. **Manual Deploy** → **Deploy latest commit**
 
 ---
@@ -137,7 +137,7 @@ app.use(cors({ origin: (process.env.CLIENT_ORIGIN || "*").split(",") }));
 ## 3️⃣ Login Flow Explained
 
 ```
-1. User enters username + password on https://zira-luxury-men-grooming.netlify.app/login
+1. User enters username + password on https://zira-luxury-grooming.netlify.app/login
 2. Frontend calls POST https://zira-0fhn.onrender.com/api/auth/login
 3. Backend checks MongoDB for the user
 4. If credentials match → Backend returns a JWT token
@@ -149,7 +149,7 @@ app.use(cors({ origin: (process.env.CLIENT_ORIGIN || "*").split(",") }));
 | Symptom | Cause | Fix |
 |---------|-------|-----|
 | ❌ "Invalid username or password" | Wrong credentials | Use `admin` / `admin123` |
-| ❌ CORS error in browser console | `CLIENT_ORIGIN` not set in Render | Set it to `https://zira-luxury-men-grooming.netlify.app` and redeploy |
+| ❌ CORS error in browser console | `CLIENT_ORIGIN` not set in Render | Set it to `https://zira-luxury-grooming.netlify.app` and redeploy |
 | ❌ "Network Error" | Variable not baked into frontend build | Set `VITE_API_URL` in Netlify and trigger a new deploy |
 | ❌ "Something went wrong" | Backend error (check Render logs) | Run seed endpoint: `GET https://zira-0fhn.onrender.com/api/seed` |
 | ❌ 401 after login | Token expired or missing | Clear localStorage → re-login |
@@ -221,7 +221,7 @@ curl -X POST "https://zira-0fhn.onrender.com/api/auth/login" \
 curl https://zira-0fhn.onrender.com/api/seed
 
 # 4. Check if frontend is serving correctly
-curl -s https://zira-luxury-men-grooming.netlify.app/login | head -20
+curl -s https://zira-luxury-grooming.netlify.app/login | head -20
 ```
 
 ---
@@ -243,7 +243,7 @@ git push origin main
 ## Summary Checklist
 
 - [ ] Backend running on Render ✅ (`https://zira-0fhn.onrender.com`)
-- [ ] Frontend deployed on Netlify ✅ (`https://zira-luxury-men-grooming.netlify.app`)
+- [ ] Frontend deployed on Netlify ✅ (`https://zira-luxury-grooming.netlify.app`)
 - [ ] `VITE_API_URL` set in Netlify env variables ✅
 - [ ] `CLIENT_ORIGIN` set in Render env variables ✅
 - [ ] Database seeded (users + products + categories + blogs) ✅

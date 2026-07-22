@@ -16,6 +16,6 @@ services:
       - key: JWT_SECRET
         generateValue: true
       - key: CLIENT_ORIGIN
-        sync: false       # Set to https://zira-luxury-men-grooming.netlify.app in Render dashboard
+        sync: false       # Set to https://zira-luxury-grooming.netlify.app in Render dashboard
       - key: PORT
         value: 5000
