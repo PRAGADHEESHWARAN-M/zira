@@ -2,6 +2,7 @@ const express = require("express");
 const Order = require("../models/Order");
 const Product = require("../models/Product");
 const { requireAuth, requireAdmin } = require("../middleware/auth");
+const { awardPoints } = require("./loyalty");
 
 const router = express.Router();
 
@@ -40,6 +41,13 @@ router.post("/", requireAuth, async (req, res) => {
     const order = await Order.create({
       orderNumber, userId: req.user.id, items: lineItems, total, status: "Pending",
     });
+    // Award loyalty points for the purchase
+    try {
+      await awardPoints(req.user.id, total);
+    } catch (e) {
+      // Non-blocking: order still goes through even if points fail
+      console.error("Points award failed:", e.message);
+    }
     res.status(201).json(order);
   } catch (err) {
     res.status(500).json({ message: "Checkout failed.", error: err.message });
@@ -48,12 +56,38 @@ router.post("/", requireAuth, async (req, res) => {
 
 // PUT /api/orders/:id/status  (admin updates order status)
 router.put("/:id/status", requireAuth, requireAdmin, async (req, res) => {
-  const { status } = req.body;
-  if (!["Pending", "Shipped", "Delivered"].includes(status)) {
+  const { status, note } = req.body;
+  const validStatuses = ["Pending", "Processing", "Shipped", "Out for Delivery", "Delivered", "Cancelled"];
+  if (!validStatuses.includes(status)) {
     return res.status(400).json({ message: "Invalid status." });
   }
-  const order = await Order.findByIdAndUpdate(req.params.id, { status }, { new: true });
+  const order = await Order.findByIdAndUpdate(
+    req.params.id,
+    {
+      status,
+      $push: { trackingHistory: { status, note: note || `Status updated to ${status}`, timestamp: new Date() } },
+    },
+    { new: true }
+  );
   res.json(order);
+});
+
+// GET /api/orders/:id/tracking  (get tracking details)
+router.get("/:id/tracking", requireAuth, async (req, res) => {
+  const order = await Order.findById(req.params.id);
+  if (!order) return res.status(404).json({ message: "Order not found." });
+  // Only the owner or admin can view tracking
+  if (order.userId.toString() !== req.user.id && req.user.role !== "admin") {
+    return res.status(403).json({ message: "Unauthorized." });
+  }
+  res.json({
+    orderNumber: order.orderNumber,
+    status: order.status,
+    trackingHistory: order.trackingHistory,
+    estimatedDelivery: order.estimatedDelivery,
+    createdAt: order.createdAt,
+    updatedAt: order.updatedAt,
+  });
 });
 
 module.exports = router;

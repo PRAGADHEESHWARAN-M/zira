@@ -12,6 +12,11 @@ const userSchema = new mongoose.Schema(
     role: { type: String, enum: ["admin", "customer"], default: "customer" },
     googleId: { type: String, default: null },
     avatar: { type: String, default: "" },
+    wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+    loyaltyPoints: { type: Number, default: 0 },
+    loyaltyTier: { type: String, enum: ["Bronze", "Silver", "Gold", "Platinum"], default: "Bronze" },
+    referralCode: { type: String, unique: true, sparse: true },
+    referredBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null },
   },
   { timestamps: true }
 );

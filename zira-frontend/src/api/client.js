@@ -54,9 +54,20 @@ export const api = {
   allOrders: () => client.get("/orders").then((r) => r.data),
   checkout: (items) => client.post("/orders", { items }).then((r) => r.data),
   updateOrderStatus: (id, status) => client.put(`/orders/${id}/status`, { status }).then((r) => r.data),
+  getTracking: (id) => client.get(`/orders/${id}/tracking`).then((r) => r.data),
 
   // Contact
   sendContact: (data) => client.post("/contacts", data).then((r) => r.data),
+
+  // Wishlist
+  getWishlist: () => client.get("/wishlist").then((r) => r.data),
+  addToWishlist: (productId) => client.post(`/wishlist/${productId}`).then((r) => r.data),
+  removeFromWishlist: (productId) => client.delete(`/wishlist/${productId}`).then((r) => r.data),
+
+  // Loyalty
+  getLoyalty: () => client.get("/loyalty/me").then((r) => r.data),
+  redeemPoints: (points) => client.post("/loyalty/redeem", { points }).then((r) => r.data),
+  applyReferral: (code) => client.post("/loyalty/referral", { code }).then((r) => r.data),
 };
 
 export default client;

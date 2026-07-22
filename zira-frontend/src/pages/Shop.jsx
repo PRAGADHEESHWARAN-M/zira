@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Search, Star, Filter } from "lucide-react";
+import { Search, Star, Filter, Heart } from "lucide-react";
 import { api } from "../api/client";
 import { currency, Modal } from "../components/ui";
 
@@ -10,9 +10,15 @@ export default function Shop({ onAddToCart }) {
   const [q, setQ] = useState("");
   const [active, setActive] = useState(null);
   const [priceRange, setPriceRange] = useState([0, 5000]);
+  const [wishlist, setWishlist] = useState([]);
+  const [sortBy, setSortBy] = useState("");
 
   useEffect(() => {
     api.listCategories().then(setCategories);
+  }, []);
+
+  useEffect(() => {
+    api.getWishlist().then(setWishlist).catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -22,7 +28,28 @@ export default function Shop({ onAddToCart }) {
     api.listProducts(params).then(setProducts);
   }, [cat, q]);
 
-  const filteredProducts = products.filter(p => p.price >= priceRange[0] && p.price <= priceRange[1]);
+  const filteredProducts = products
+    .filter(p => p.price >= priceRange[0] && p.price <= priceRange[1])
+    .sort((a, b) => {
+      if (sortBy === "price-asc") return a.price - b.price;
+      if (sortBy === "price-desc") return b.price - a.price;
+      if (sortBy === "rating") return b.rating - a.rating;
+      if (sortBy === "name") return a.name.localeCompare(b.name);
+      return 0;
+    });
+
+  const toggleWishlist = async (e, productId) => {
+    e.stopPropagation();
+    try {
+      const inWishlist = wishlist.some((p) => p._id === productId);
+      const updated = inWishlist
+        ? await api.removeFromWishlist(productId)
+        : await api.addToWishlist(productId);
+      setWishlist(updated);
+    } catch (err) {
+      // silently fail
+    }
+  };
 
   const safeImage = (url) => {
     if (!url) return "";
@@ -112,6 +139,21 @@ export default function Shop({ onAddToCart }) {
             style={{ width: 100 }}
           />
         </div>
+        <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 8 }}>
+          <span style={{ fontSize: 12, color: "var(--muted)" }}>Sort:</span>
+          <select
+            className="input"
+            style={{ padding: "6px 10px", fontSize: 12, width: "auto" }}
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+          >
+            <option value="">Default</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="rating">Highest Rated</option>
+            <option value="name">Name A-Z</option>
+          </select>
+        </div>
       </div>
 
       {/* Products Grid */}
@@ -125,6 +167,35 @@ export default function Shop({ onAddToCart }) {
             onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-4px)"}
             onMouseLeave={(e) => e.currentTarget.style.transform = "translateY(0)"}
           >
+            {/* Wishlist Heart */}
+            <button
+              onClick={(e) => toggleWishlist(e, p._id)}
+              style={{
+                position: "absolute",
+                top: 12,
+                left: 12,
+                background: "rgba(0,0,0,0.3)",
+                border: "none",
+                borderRadius: "50%",
+                width: 32,
+                height: 32,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+                zIndex: 2,
+                color: wishlist.some((w) => w._id === p._id) ? "var(--apricot)" : "var(--muted)",
+                transition: "color 0.2s",
+              }}
+            >
+              <Heart
+                size={14}
+                style={{
+                  fill: wishlist.some((w) => w._id === p._id) ? "var(--apricot)" : "none",
+                }}
+              />
+            </button>
+
             {/* Discount Badge */}
             {p.discount > 0 && (
               <div style={{

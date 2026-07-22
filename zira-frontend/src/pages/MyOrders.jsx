@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { api } from "../api/client";
 import { currency, StatusPill } from "../components/ui";
 
@@ -21,7 +22,12 @@ export default function MyOrders() {
         <div key={o._id} className="card" style={{ padding: 18, marginBottom: 14 }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8, flexWrap: "wrap", gap: 6 }}>
             <span className="serif" style={{ fontSize: 17, color: "var(--apricot-light)" }}>{o.orderNumber}</span>
-            <StatusPill status={o.status} />
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <StatusPill status={o.status} />
+              <Link to={`/orders/tracking/${o._id}`} className="btn" style={{ padding: "4px 10px", fontSize: 11 }}>
+                Track
+              </Link>
+            </div>
           </div>
           <p style={{ fontSize: 12, color: "var(--muted)", marginBottom: 8 }}>{new Date(o.createdAt).toLocaleDateString()}</p>
           <ul style={{ fontSize: 13, color: "#d5cce0", marginBottom: 8, paddingLeft: 18 }}>

@@ -2,6 +2,19 @@ import React from "react";
 import { Plus, Edit2, Trash2 } from "lucide-react";
 
 export default function CrudTable({ title, columns, rows, onAdd, onEdit, onDelete }) {
+  const renderCell = (cell) => {
+    if (typeof cell === "object" && cell !== null && cell.type === "image") {
+      return cell.src ? (
+        <img src={cell.src} alt="" style={{ width: 48, height: 48, objectFit: "cover", borderRadius: 4 }} />
+      ) : (
+        <div style={{ width: 48, height: 48, background: "var(--line)", borderRadius: 4, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, color: "var(--muted)" }}>
+          <span>&#9670;</span>
+        </div>
+      );
+    }
+    return cell;
+  };
+
   return (
     <div className="fade">
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
@@ -15,7 +28,7 @@ export default function CrudTable({ title, columns, rows, onAdd, onEdit, onDelet
       <div className="card" style={{ overflowX: "auto" }}>
         <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
           <thead>
-          <tr style={{ borderBottom: "1px solid var(--line)", color: "var(--muted)", textAlign: "left" }}>
+            <tr style={{ borderBottom: "1px solid var(--line)", color: "var(--muted)", textAlign: "left" }}>
               {columns.map((c) => <th key={c} style={{ padding: 12 }}>{c}</th>)}
               <th style={{ padding: 12 }}></th>
             </tr>
@@ -23,7 +36,7 @@ export default function CrudTable({ title, columns, rows, onAdd, onEdit, onDelet
           <tbody>
             {rows.map((r, i) => (
               <tr key={i} style={{ borderBottom: "1px solid var(--line)" }}>
-                {r.cells.map((c, j) => <td key={j} style={{ padding: 12, color: "#d5cce0" }}>{c}</td>)}
+                {r.cells.map((c, j) => <td key={j} style={{ padding: 12, color: "#d5cce0" }}>{renderCell(c)}</td>)}
                 <td style={{ padding: 12, display: "flex", gap: 12 }}>
                   {onEdit && <Edit2 size={14} style={{ cursor: "pointer", color: "var(--muted)" }} onClick={() => onEdit(r.raw)} />}
                   {onDelete && <Trash2 size={14} style={{ cursor: "pointer", color: "var(--muted)" }} onClick={() => onDelete(r.raw)} />}
@@ -36,6 +49,5 @@ export default function CrudTable({ title, columns, rows, onAdd, onEdit, onDelet
           </tbody>
         </table>
       </div>
-    </div>
   );
 }

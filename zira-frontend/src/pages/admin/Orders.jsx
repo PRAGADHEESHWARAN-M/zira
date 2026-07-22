@@ -36,8 +36,11 @@ export default function Orders() {
                 <td style={{ padding: 12 }}>
                   <select className="input" style={{ padding: "5px 8px", fontSize: 12 }} value={o.status} onChange={(e) => setStatus(o._id, e.target.value)}>
                     <option>Pending</option>
+                    <option>Processing</option>
                     <option>Shipped</option>
+                    <option>Out for Delivery</option>
                     <option>Delivered</option>
+                    <option>Cancelled</option>
                   </select>
                 </td>
               </tr>

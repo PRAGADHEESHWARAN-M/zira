@@ -1,5 +1,5 @@
 import React from "react";
-import { X, Clock, Truck, CheckCircle2 } from "lucide-react";
+import { X, Clock, Truck, CheckCircle2, Package, MapPin, XCircle } from "lucide-react";
 
 export function Logo({ size = 28 }) {
   return (
@@ -47,8 +47,11 @@ export function Modal({ title, onClose, children, wide }) {
 export function StatusPill({ status }) {
   const map = {
     Pending: { c: "var(--apricot)", Icon: Clock },
+    Processing: { c: "#60a5fa", Icon: Package },
     Shipped: { c: "var(--apricot-light)", Icon: Truck },
+    "Out for Delivery": { c: "#34d399", Icon: MapPin },
     Delivered: { c: "var(--success)", Icon: CheckCircle2 },
+    Cancelled: { c: "#ef4444", Icon: XCircle },
   };
   const { c, Icon } = map[status] || map.Pending;
   return (

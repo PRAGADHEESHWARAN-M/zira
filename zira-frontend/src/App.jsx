@@ -7,6 +7,9 @@ import Signup from "./pages/Signup";
 import AuthCallback from "./pages/AuthCallback";
 import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
+import Wishlist from "./pages/Wishlist";
+import OrderTracking from "./pages/OrderTracking";
+import Loyalty from "./pages/Loyalty";
 import MyOrders from "./pages/MyOrders";
 import Profile from "./pages/Profile";
 import AboutUs from "./pages/AboutUs";
@@ -38,16 +41,6 @@ function PublicPage({ children }) {
   );
 }
 
-function CustomerPage({ children }) {
-  return (
-    <>
-      <TopNav />
-      <div style={{ minHeight: "60vh" }}>{children}</div>
-      <Footer />
-    </>
-  );
-}
-
 export default function App() {
   const [cart, setCart] = useState([]); // [{ product, qty }]
 
@@ -60,6 +53,16 @@ export default function App() {
     });
   };
   const cartCount = cart.reduce((s, c) => s + c.qty, 0);
+
+  function CustomerPage({ children }) {
+    return (
+      <>
+        <TopNav cartCount={cartCount} />
+        <div style={{ minHeight: "60vh" }}>{children}</div>
+        <Footer />
+      </>
+    );
+  }
 
   return (
     <Routes>
@@ -97,11 +100,41 @@ export default function App() {
         }
       />
       <Route
+        path="/wishlist"
+        element={
+          <RequireAuth>
+            <CustomerPage>
+              <Wishlist onAddToCart={addToCart} />
+            </CustomerPage>
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/loyalty"
+        element={
+          <RequireAuth>
+            <CustomerPage>
+              <Loyalty />
+            </CustomerPage>
+          </RequireAuth>
+        }
+      />
+      <Route
         path="/orders"
         element={
           <RequireAuth>
             <CustomerPage>
               <MyOrders />
+            </CustomerPage>
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/orders/tracking/:id"
+        element={
+          <RequireAuth>
+            <CustomerPage>
+              <OrderTracking />
             </CustomerPage>
           </RequireAuth>
         }

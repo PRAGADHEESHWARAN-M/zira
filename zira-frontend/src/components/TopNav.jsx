@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ShoppingBag, LogOut } from "lucide-react";
+import { ShoppingBag, LogOut, Heart } from "lucide-react";
 import { Logo } from "./ui";
 import { useAuth } from "../context/AuthContext";
 
@@ -22,6 +22,8 @@ export default function TopNav({ cartCount }) {
   const storeItems = user
     ? [
         ["/shop", "Shop"],
+        ["/wishlist", "Wishlist"],
+        ["/loyalty", "Loyalty"],
         ["/orders", "My Orders"],
         ["/profile", "My Profile"],
       ]
@@ -78,6 +80,17 @@ export default function TopNav({ cartCount }) {
               </Link>
             </motion.div>
           ))}
+          {user && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.25 }}
+            >
+              <Link to="/wishlist" style={{ position: "relative" }}>
+                <Heart size={19} color={pathname === "/wishlist" ? "var(--apricot-light)" : "var(--muted-light)"} />
+              </Link>
+            </motion.div>
+          )}
           {user && (
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}

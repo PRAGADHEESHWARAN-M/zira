@@ -3,8 +3,15 @@ const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const User = require("../models/User");
 const { requireAuth } = require("../middleware/auth");
+const { computeTier } = require("./loyalty");
 
 const router = express.Router();
+
+function generateReferralCode(name) {
+  const prefix = (name || "USER").slice(0, 3).toUpperCase();
+  const suffix = Math.random().toString(36).substring(2, 6).toUpperCase();
+  return `${prefix}${suffix}`;
+}
 
 function signToken(user) {
   return jwt.sign(
@@ -24,7 +31,8 @@ router.post("/signup", async (req, res) => {
     const exists = await User.findOne({ username });
     if (exists) return res.status(409).json({ message: "Username already taken." });
 
-    const user = await User.create({ name, email, phone, address, username, password, role: "customer" });
+    const referralCode = generateReferralCode(name);
+    const user = await User.create({ name, email, phone, address, username, password, role: "customer", referralCode });
     const token = signToken(user);
     res.status(201).json({ token, user: user.toSafeObject() });
   } catch (err) {
