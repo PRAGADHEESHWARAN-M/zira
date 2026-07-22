@@ -23,8 +23,8 @@ async function seed() {
 
   await User.create({
     name: "Pragadheesh", email: "pragadheesh32@gmail.com", phone: "9087542052",
-    address: "Zira HQ, Chennai, Tamil Nadu", username: "admin",
-    password: "admin123", role: "admin",
+    address: "Zira HQ, Chennai, Tamil Nadu", username: "Pragadheesh",
+    password: "zirazira", role: "admin",
   });
 
   // User.create (not insertMany) so the pre-save hashing hook actually runs
@@ -69,7 +69,6 @@ const localImage = (filename) => `/Zira_Products_Images/${filename}`;
       icon: "🪔",
       imageUrl: localImage("12_ZIRA_Beard_Oil.png"),
       ingredients: ["Oudh Oil", "Argan Oil", "Jojoba Oil"],
-
       benefits: ["Deep conditioning", "Shine enhancement", "Anti-itch"],
       bestFor: ["Long beards", "Thick beards", "Daily use"],
       skinType: ["All"],
@@ -88,7 +87,6 @@ const localImage = (filename) => `/Zira_Products_Images/${filename}`;
       icon: "🕯️",
       imageUrl: localImage("13_ZIRA_Beard_Balm.png"),
       ingredients: ["Sandalwood Oil", "Aloe Vera", "Glycerin"],
-
       benefits: ["Soothes irritation", "Prevents ingrown hairs", "Moisturizes"],
       bestFor: ["Sensitive skin", "Post-shave care", "Daily use"],
       skinType: ["Sensitive", "Normal"],
@@ -107,7 +105,6 @@ const localImage = (filename) => `/Zira_Products_Images/${filename}`;
       icon: "🧴",
       imageUrl: localImage("14_ZIRA_Beard_Wax.png"),
       ingredients: ["Beeswax", "Coconut Oil", "Cedarwood"],
-
       benefits: ["Strong hold", "Water-resistant", "Pleasant scent"],
       bestFor: ["Styling", "Long beards", "Events"],
       skinType: ["All"],
@@ -128,7 +125,6 @@ const localImage = (filename) => `/Zira_Products_Images/${filename}`;
       icon: "◆",
       imageUrl: localImage("01_ZIRA_Daily_Face_Wash.png"),
       ingredients: ["Activated Charcoal", "Tea Tree Oil", "Neem"],
-
       benefits: ["Deep cleansing", "Removes toxins", "Oil control"],
       bestFor: ["Oily skin", "Acne-prone", "Daily use"],
       skinType: ["Oily", "Combination"],
@@ -147,7 +143,6 @@ const localImage = (filename) => `/Zira_Products_Images/${filename}`;
       icon: "🌿",
       imageUrl: localImage("07_ZIRA_Face_Moisturizer.png"),
       ingredients: ["Hyaluronic Acid", "Aloe Vera", "Green Tea"],
-
       benefits: ["Deep hydration", "Anti-aging", "Skin brightening"],
       bestFor: ["Dry skin", "Sensitive", "Daily care"],
       skinType: ["Dry", "Sensitive", "Normal"],
@@ -166,7 +161,6 @@ const localImage = (filename) => `/Zira_Products_Images/${filename}`;
       icon: "✨",
       imageUrl: localImage("06_ZIRA_Face_Scrub.png"),
       ingredients: ["Walnut Shell Powder", "Tea Tree", "Mint"],
-
       benefits: ["Exfoliation", "Smooth texture", "Brightening"],
       bestFor: ["Weekly use", "All skin types", "Dull skin"],
       skinType: ["All"],
@@ -187,7 +181,6 @@ const localImage = (filename) => `/Zira_Products_Images/${filename}`;
       icon: "●",
       imageUrl: localImage("25_ZIRA_Hair_Clay.png"),
       ingredients: ["Clay", "Beeswax", "Coconut Oil"],
-
       benefits: ["Strong hold", "Matte finish", "Easy wash-out"],
       bestFor: ["Textured hair", "Short hair", "Daily styling"],
       skinType: ["All"],
@@ -204,7 +197,6 @@ const localImage = (filename) => `/Zira_Products_Images/${filename}`;
       rating: 4.5,
       reviews: 324,
       icon: "🥥",      imageUrl: localImage("28_ZIRA_Hair_Oil.png"),
-
       benefits: ["Reduces hair fall", "Strengthens roots", "Nourishes"],
       bestFor: ["Hair loss", "Weak hair", "Weekly massage"],
       skinType: ["All"],
@@ -221,7 +213,6 @@ const localImage = (filename) => `/Zira_Products_Images/${filename}`;
       rating: 4.6,
       reviews: 378,
       icon: "🧼",      imageUrl: localImage("29_ZIRA_Anti_Dandruff_Shampoo.png"),
-
       benefits: ["Deep cleanse", "Scalp detox", "Shine"],
       bestFor: ["Oily scalp", "Daily use", "Pollution"],
       skinType: ["All"],
@@ -236,6 +227,15 @@ const localImage = (filename) => `/Zira_Products_Images/${filename}`;
       price: 3499,
       stock: 18,
       desc: "Oudh, leather, black pepper. Long-lasting signature scent.",
+      brand: "Zira Premium",
+      rating: 4.9,
+      reviews: 234,
+      icon: "✦",
+      imageUrl: localImage("40_ZIRA_Perfume.png"),
+      ingredients: ["Oudh Oil", "Leather Accord", "Black Pepper"],
+      benefits: ["Long-lasting", "Unique scent", "Premium quality"],
+      bestFor: ["All occasions", "Evening wear", "Office"],
+      skinType: ["All"],
       brand: "Zira Premium",
       rating: 4.9,
       reviews: 234,
@@ -997,7 +997,7 @@ const localImage = (filename) => `/Zira_Products_Images/${filename}`;
     { title: "Layering Fragrances Like a Pro", author: "Zira Editorial", content: "Attars and EDPs layer differently—apply attar to pulse points first, then a light mist of EDP over clothing. This creates a complex scent profile that develops throughout the day. Start with a 1:2 ratio of attar to EDP, and adjust based on your preference. Remember, fragrance is personal—choose what makes you feel confident." },
   ]);
 
-  console.log("Seed complete. Admin login -> username: admin / password: admin123");
+
   console.log("Customer login -> username: karthikeyan0 / password: customer123");
   await mongoose.connection.close();
 }
