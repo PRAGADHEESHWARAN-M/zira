@@ -22,9 +22,9 @@ async function seed() {
   ]);
 
   await User.create({
-    name: "Pragadheesh", email: "pragadheesh32@gmail.com", phone: "9087542052",
-    address: "Zira HQ, Chennai, Tamil Nadu", username: "Pragadheesh",
-    password: "zirazira", role: "admin",
+    name: "admin", email: "admin@zira.com", phone: "9087542052",
+    address: "Zira HQ, Chennai, Tamil Nadu", username: "admin",
+    password: "admin123", role: "admin",
   });
 
   // User.create (not insertMany) so the pre-save hashing hook actually runs
